@@ -10,7 +10,8 @@ const PetShowPage = (props) => {
   const [animalPageFound, setAnimalPageFound] = useState(true)
 
   useEffect(() => {
-    fetch(`/api/v1/show_page?type=${speciesId}&id=${adoptablePetId}`)
+    // fetch(`/api/v1/show_page?type=${speciesId}&id=${adoptablePetId}`)
+    fetch(`/api/v1/adoptable_pets/${adoptablePetId}`)
       .then(response => {
         if (response.ok) {
           return response
@@ -19,7 +20,7 @@ const PetShowPage = (props) => {
         }
       })
       .then(response => response.json())
-      .then(adoptablePet => setAdoptablePet(adoptablePet.rows[0]))
+      .then(adoptablePet => setAdoptablePet(adoptablePet))
       .catch(error => {
         console.log(error)
       })
@@ -31,12 +32,12 @@ const PetShowPage = (props) => {
   }  
   const animalInformation = (
     <div className="individual-pet">
-      <img src={adoptablePet.img_url} alt={`Photo of ${adoptablePet.name}`} />
+      <img src={adoptablePet.imgUrl} alt={`Photo of ${adoptablePet.name}`} />
       <div className="individual-pet-information">
         <p id="individual-pet-name"><b>{adoptablePet.name}</b></p>
         <p className="individual-pet-attribute-name"><b>Age:</b> {adoptablePet.age}</p>
-        <p className="individual-pet-attribute-name"><b>Vaccination Status:</b> {adoptablePet.vaccination_status ? 'Yes' : 'No'}</p>
-        <p className="individual-pet-attribute-name"><b>My story:</b> {adoptablePet.adoption_story}</p>
+        <p className="individual-pet-attribute-name"><b>Vaccination Status:</b> {adoptablePet.vaccinationStatus ? 'Yes' : 'No'}</p>
+        <p className="individual-pet-attribute-name"><b>My story:</b> {adoptablePet.adoptionStory}</p>
       </div>
     </div>
   )
