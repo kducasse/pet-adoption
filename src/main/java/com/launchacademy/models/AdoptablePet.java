@@ -1,5 +1,6 @@
 package com.launchacademy.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,6 +59,7 @@ public class AdoptablePet {
 
   @ManyToOne
   @JoinColumn(name = "type_id")
+  @JsonIgnoreProperties("adoptablePets")
   private PetType petType;
 
 }

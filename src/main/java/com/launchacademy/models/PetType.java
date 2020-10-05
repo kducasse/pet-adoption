@@ -1,5 +1,6 @@
 package com.launchacademy.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,5 +41,6 @@ public class PetType {
   private String imgUrl;
 
   @OneToMany(mappedBy = "petType")
+  @JsonIgnoreProperties("petType")
   private List<AdoptablePet> adoptablePets;
 }

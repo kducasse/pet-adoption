@@ -21,7 +21,7 @@ const Navbar = props => {
           </li>
            
            <li>
-              <Link to="/pets/1">
+              <Link to="/pets/Two-legged">
                 <div className="navbar">
                   Two Legged Pets
                 </div>
@@ -29,7 +29,7 @@ const Navbar = props => {
           </li>
 
               <li>
-                <Link to="/pets/2">
+                <Link to="/pets/Four-legged">
                  <div className="navbar"> Four Legged Pets</div>
                 </Link>
               </li>

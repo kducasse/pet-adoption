@@ -1,14 +1,15 @@
 let WriteFilePlugin = require('write-file-webpack-plugin');
 
-var webpack = require('webpack');
+const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   entry: {
     path: './src/main.js'
   },
   output: {
-    path: __dirname + '/public',
-    filename: 'bundle.js'
+    path: path.join(__dirname, '../../../target/classes/static'),
+    filename: "bundle.js"
   },
   module: {
     rules: [
@@ -30,9 +31,5 @@ module.exports = {
   plugins: [
     new WriteFilePlugin()
   ],
-  devtool: 'eval-source-map',
-  devServer: {
-    contentBase: './public',
-    inline: true
-  }
+  devtool: 'eval-source-map'
 }
