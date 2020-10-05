@@ -1,0 +1,1 @@
+Our pet adoption app is a website where people can adopt different kinds of animals or put up their own animal up for adoption. Group Consists of Kara D., Jeremy S., Jose P., and Ria M.
