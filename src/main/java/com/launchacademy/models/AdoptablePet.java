@@ -61,5 +61,4 @@ public class AdoptablePet {
   @JoinColumn(name = "type_id")
   @JsonIgnoreProperties("adoptablePets")
   private PetType petType;
-
 }

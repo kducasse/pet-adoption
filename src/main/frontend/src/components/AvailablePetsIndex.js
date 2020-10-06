@@ -17,7 +17,7 @@ const AvailablePetsIndex = props => {
                 <div>
                   <Link to={`/pets/${species}/${pet.id}`}>Name: {pet.name}</Link>
                   <p>Age: {pet.age}</p>
-                  <p>Vaccination Status: {pet.vaccination_status ? 'Yes' : 'No'}</p>
+                  <p>Vaccinated: {pet.vaccinationStatus ? 'Yes' : 'No'}</p>
                 </div>
               </div>
             )
