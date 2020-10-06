@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,7 @@ public class PetSurrenderApplication {
   private String name;
 
   @NotBlank
-  @Size(min = 10, max = 10, message = "must be 10 characters.")
+  @Size(min = 10, max = 10, message = "must be 10 digits long")
   @Column(name = "phone_number")
   private String phoneNumber;
 
@@ -50,6 +51,7 @@ public class PetSurrenderApplication {
   @Column(name = "pet_name")
   private String petName;
 
+  @NotNull
   @Min(value = 1)
   @Column(name = "pet_age")
   private Integer petAge;
@@ -58,6 +60,7 @@ public class PetSurrenderApplication {
   @Column(name = "pet_image_url")
   private String imgUrl;
 
+  @NotNull
   @Column(name = "vaccination_status")
   private Boolean vaccinationStatus;
 

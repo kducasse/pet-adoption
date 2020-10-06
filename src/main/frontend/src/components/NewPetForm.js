@@ -52,6 +52,7 @@ const NewPetForm = props => {
                let message = errorObject.defaultMessage
                return <p key={index}>{field} {message}</p>
              })
+             results.sort()
             setErrors(results)
             })
          } })

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
+import React from 'react'
+import { Route, Link, Switch } from 'react-router-dom'
 import AvailablePetsIndex from "./AvailablePetsIndex"
 import NewPetForm from "./NewPetForm"
 import PetTypesIndex from "./PetTypesIndex"

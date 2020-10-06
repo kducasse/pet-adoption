@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import NewPetForm from './NewPetForm'
 
 const SurrenderForm = props => {
     const [newSurrender, setNewSurrender] = useState("")
@@ -36,10 +35,10 @@ const SurrenderForm = props => {
     }
         , [])
 
-    let viewAllForms = allSurrenderForms.map(SurrenderForm => {
+    let viewAllForms = allSurrenderForms.map(surrenderForm => {
         return (
-            <option key={SurrenderForm.id} value={JSON.stringify(SurrenderForm)}>
-                --{`${SurrenderForm.name}, Surrender Application #${SurrenderForm.id}, ${SurrenderForm.application_status}`}--
+            <option key={surrenderForm.id} value={JSON.stringify(surrenderForm)}>
+                --{`${surrenderForm.name}, Surrender Application #${surrenderForm.id}, ${surrenderForm.application_status}`}--
             </option>
         )
     })
