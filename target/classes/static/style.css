@@ -88,10 +88,6 @@ form.put-pet-up-for-adoption {
   color: var(--medium);
 }
 
-.adoption-form-section div {
-  margin-bottom: 5em;
-}
-
 input[type=submit].submit-btn {
   font-size: 1.5em;
   background-color: var(--medium);

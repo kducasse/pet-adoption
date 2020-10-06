@@ -43,4 +43,8 @@ public class PetType {
   @OneToMany(mappedBy = "petType")
   @JsonIgnoreProperties("petType")
   private List<AdoptablePet> adoptablePets;
+
+  @OneToMany(mappedBy = "petType")
+  @JsonIgnoreProperties("petType")
+  private List<PetSurrenderApplication> petSurrenderApplications;
 }

@@ -7,12 +7,13 @@ const NewPetForm = props => {
     email: "",
     petName: "",
     petAge: "",
-    petType: "default",
-    petImage: "",
-    vaccinationStatus: "default"
+    petType: "",
+    imgUrl: "",
+    vaccinationStatus: ""
   })
 
-  const [appStatus, setAppStatus] = useState("");
+  const [appStatus, setAppStatus] = useState("")
+  const [errors, setErrors] = useState(null)
 
   const handlePetChange = event => {
     setNewPet({
@@ -29,42 +30,51 @@ const NewPetForm = props => {
       email: newPet.email,
       petName: newPet.petName,
       petAge: newPet.petAge,
-      petType: newPet.petType,
-      petImage: newPet.petImage,
-      vaccinationStatus: newPet.vaccinationStatus
+      petType: { type: newPet.petType },
+      imgUrl: newPet.imgUrl,
+      vaccinationStatus: newPet.vaccinationStatus,
+      applicationStatus: "pending"
     }
 
-    let isFilledOut = true;
-
-    let newPetKeys = Object.keys(payload)
-    newPetKeys.forEach(key => {
-      if (newPet[key] === "") {
-        isFilledOut = false
-      }
-    })
-
-    if (isFilledOut) {
       fetch("/api/v1/pet_surrender_applications", {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' }
       })
-        .then(result => {
-          if(result.ok){
+        .then(response => {
+          if(response.ok){
           setAppStatus("Your request is in process")
+         } else {
+           return response.json()
+           .then(bindingResults => {
+             let results = bindingResults.map( (errorObject, index) => {
+               let field = errorObject.field.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); })
+               let message = errorObject.defaultMessage
+               return <p key={index}>{field} {message}</p>
+             })
+            setErrors(results)
+            })
          } })
         .catch(error => {
           console.log(error)
         })
-    }
+  }
+
+  let errorTemplate;
+  if (errors) {
+    errorTemplate = errors
   }
 
   let form;
+
   if(appStatus !== "Your request is in process"){
     form = (
       <div className="adoption-form-section">
         <form className="put-pet-up-for-adoption" onSubmit={handlePetSubmit}>
           <h2>Put a Pet Up for Adoption!</h2>
+          <div id="errors">
+            {errorTemplate}
+          </div>
           <label htmlFor="name">Your Name:
             <input type="text" name="name" id="name" onChange={handlePetChange} value={newPet.name} />
           </label>
@@ -87,18 +97,18 @@ const NewPetForm = props => {
         
           <label htmlFor="petType">Select Pet Type:</label>
             <select name="petType" id="petType" onChange={handlePetChange} value={newPet.petType}>
-              <option value="default" disabled hidden>--Select Pet Type--</option>
-              <option value="2">Four-Legged</option>
-              <option value="1">Two-Legged</option>
+              <option value="" disabled hidden>--Select Pet Type--</option>
+              <option value="Four-legged">Four-Legged</option>
+              <option value="Two-legged">Two-Legged</option>
             </select>
         
-          <label htmlFor="image">Image Source:
-            <input type="text" name="petImage" id="petImage" onChange={handlePetChange} value={newPet.petImage} />
+          <label htmlFor="image">Image Url:
+            <input type="text" name="imgUrl" id="imgUrl" onChange={handlePetChange} value={newPet.imgUrl} />
           </label>
         
           <label htmlFor="vaccinationStatus">Is your pet vaccinated? </label>
             <select name="vaccinationStatus" id="vaccinationStatus" onChange={handlePetChange} value={newPet.vaccinationStatus}>
-              <option value="default" disabled hidden>--Choose one of the following--</option>
+              <option value="" disabled hidden>--Choose one of the following--</option>
               <option value="true">Yes</option>
               <option value="false">No</option>
           </select>
