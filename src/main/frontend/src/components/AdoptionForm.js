@@ -44,8 +44,9 @@ const AdoptionForm = props => {
         body: JSON.stringify(payload)
       })
         .then((result) => {
-          if(result.ok){
-          setAdoptAppStatus("Your request is in process")}
+          if (result.ok) {
+            setAdoptAppStatus("Your request is in process")
+          }
         })
         .catch(error => {
           console.log(error)
@@ -59,24 +60,32 @@ const AdoptionForm = props => {
       <div className="adoption-form-section">
         <form className="put-pet-up-for-adoption" onSubmit={handleAppSubmit}>
           <h2>Pet Adoption Form</h2>
-          <label htmlFor="name">Your Name:
+          <div>
+            <label htmlFor="name">Your Name:
             <input type="text" name="name" id="name" onChange={handleAppChange} value={newApplication.name} />
-          </label>
+            </label>
+          </div>
 
-          <label htmlFor="phoneNumber">Phone Number:
+          <div>
+            <label htmlFor="phoneNumber">Phone Number:
             <input type="text" name="phoneNumber" id="phoneNumber" onChange={handleAppChange} value={newApplication.phoneNumber} />
-          </label>
+            </label>
+          </div>
 
-          <label htmlFor="email">Email Address:
-            <input type="text" name="email" id="email" onChange={handleAppChange} value={newApplication.email} />
-          </label>
+          <div>
+            <label htmlFor="email">Email Address:
+              <input type="text" name="email" id="email" onChange={handleAppChange} value={newApplication.email} />
+            </label>
+          </div>
 
-          <label htmlFor="homeStatus">Select Home Status:</label>
+          <div>
+            <label htmlFor="homeStatus">Select Home Status:</label>
             <select name="homeStatus" id="homeStatus" onChange={handleAppChange} value={newApplication.homeStatus}>
               <option value="default" disabled hidden>--Select Home Status--</option>
               <option value="own">Own</option>
               <option value="rent">Rent</option>
             </select>
+          </div>
 
           <div>
             <input className="button submit-btn" type="submit" value="Submit" />
