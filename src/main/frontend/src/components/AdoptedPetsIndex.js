@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const AdoptedPetsIndex = props => {
-  const [AdoptedPets, setAdoptedPets] = useState([]);
+  const [adoptedPets, setAdoptedPets] = useState([]);
 
   useEffect(() => {
     fetch(`/api/v1/adoptable_pets?type=all`)
       .then((response) => response.json())
-      .then((AdoptedPets) => {
-        setAdoptedPets(AdoptedPets.rows.map((pet) => {
-          if (pet.adoption_status == "approved"){
+      .then((result) => {
+        setAdoptedPets(result.map((pet) => {
+          if (pet.adoptionStatus == "approved"){
             return (
               <tr key={pet.id}>
-                <td><img src={pet.img_url} alt={`Photo of ${pet.name}`} /></td>
-                <td><Link to={`/pets/${pet.type_id}/${pet.id}`}>{pet.name}</Link></td>
+                <td><img src={pet.imgUrl} alt={`Photo of ${pet.name}`} /></td>
+                <td>{pet.name}</td>
                 <td>{pet.age}</td>
-                <td>{pet.vaccination_status ? 'Yes' : 'No'}</td>
+                <td>{pet.vaccinationStatus ? 'Yes' : 'No'}</td>
               </tr>
             )
           }
@@ -36,7 +36,7 @@ const AdoptedPetsIndex = props => {
           </tr>
         </thead>
         <tbody>
-          {AdoptedPets}
+          {adoptedPets}
         </tbody>
       </table>
     </>

@@ -1,6 +1,7 @@
 package com.launchacademy.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -17,10 +19,12 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
+@ToString()
 @NoArgsConstructor
 @Table(name = "adoptable_pets")
 public class AdoptablePet {
@@ -61,4 +65,8 @@ public class AdoptablePet {
   @JoinColumn(name = "type_id")
   @JsonIgnoreProperties("adoptablePets")
   private PetType petType;
+
+  @OneToMany(mappedBy = "adoptablePet")
+  @JsonIgnoreProperties("adoptablePet")
+  private List<AdoptionApplication> adoptionApplicationList;
 }

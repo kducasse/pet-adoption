@@ -1,11 +1,9 @@
 package com.launchacademy.controllers;
 
-import com.google.common.collect.Lists;
 import com.launchacademy.models.AdoptablePet;
 import com.launchacademy.models.PetType;
 import com.launchacademy.repositories.AdoptablePetRepository;
 import com.launchacademy.repositories.PetTypeRepository;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,7 +24,8 @@ public class AdoptablePetRestController {
   private PetTypeRepository petTypeRepository;
 
   @Autowired
-  private AdoptablePetRestController(AdoptablePetRepository adoptablePetRepository, PetTypeRepository petTypeRepository) {
+  private AdoptablePetRestController(AdoptablePetRepository adoptablePetRepository,
+      PetTypeRepository petTypeRepository) {
     this.adoptablePetRepository = adoptablePetRepository;
     this.petTypeRepository = petTypeRepository;
   }
@@ -35,9 +34,13 @@ public class AdoptablePetRestController {
   public Iterable<AdoptablePet> getPets(@RequestParam(required = false) String type) {
     if (type == null) {
       return adoptablePetRepository.findAll();
-    }else{
+    } else if (type.equals("all")) {
+      return adoptablePetRepository.findAllByAdoptionStatus("approved");
+    } else {
       int typeNumber = type.equals("Two-legged") ? 1 : 2;
-      return petTypeRepository.findById(typeNumber).orElseThrow(AdoptablePetNotFoundException::new).getAdoptablePets();
+      return petTypeRepository.findById(typeNumber)
+          .orElseThrow(AdoptablePetNotFoundException::new)
+          .getAdoptablePets();
     }
   }
 
@@ -45,6 +48,7 @@ public class AdoptablePetRestController {
 
   @ControllerAdvice
   private class AdoptablePetNotFoundAdvice {
+
     @ResponseBody
     @ExceptionHandler(AdoptablePetNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -55,8 +59,8 @@ public class AdoptablePetRestController {
 
   @GetMapping("/{id}")
   public AdoptablePet getOnePet(@PathVariable Integer id, @RequestParam String species) {
-    List<PetType> petTypeList = Lists.newArrayList(petTypeRepository.findAll());
-    PetType petType = species.equals("Two-legged") ? petTypeList.get(0) : petTypeList.get(1);
+    PetType petType = species.equals("Two-legged") ? petTypeRepository.findByTypeIgnoreCase(species)
+        : petTypeRepository.findByTypeIgnoreCase(species);
     return adoptablePetRepository.findByIdAndPetType(id, petType)
         .orElseThrow(AdoptablePetNotFoundException::new);
   }

@@ -9,6 +9,7 @@ const AdoptionForm = props => {
   })
 
   const [adoptAppStatus, setAdoptAppStatus] = useState("")
+  const [errors, setErrors] = useState(null)
 
   const handleAppChange = event => {
     setNewApplication({
@@ -24,34 +25,38 @@ const AdoptionForm = props => {
       phoneNumber: newApplication.phoneNumber,
       email: newApplication.email,
       homeStatus: newApplication.homeStatus,
-      petId: props.petId,
+      applicationStatus: "pending",
+      adoptablePet: { id: props.petId},
     }
-
-    let filledOut = true;
-    let newAdoptApp = Object.keys(payload);
-    newAdoptApp.forEach(key => {
-      if (newApplication[key] === "") {
-        filledOut = false
-      }
-    })
-
-    if (filledOut) {
+   
       fetch("/api/v1/adoption_application", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {'Content-Type': 'application/json' }
       })
-        .then((result) => {
-          if (result.ok) {
+        .then(response => {
+          if (response.ok) {
             setAdoptAppStatus("Your request is in process")
+          } else {
+            return response.json()
+            .then(bindingResults => {
+              let results = bindingResults.map( (errorObject, index) => {
+                let field = errorObject.field.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); })
+                let message = errorObject.defaultMessage
+                return <p key={index}>{field} {message}</p>
+              })
+             setErrors(results)
+             })
           }
         })
         .catch(error => {
           console.log(error)
         })
-    }
+  }
+
+  let errorTemplate;
+  if (errors) {
+    errorTemplate = errors
   }
 
   let adoptForm;
@@ -60,6 +65,9 @@ const AdoptionForm = props => {
       <div className="adoption-form-section">
         <form className="put-pet-up-for-adoption" onSubmit={handleAppSubmit}>
           <h2>Pet Adoption Form</h2>
+          <div className="errors">
+            {errorTemplate}
+          </div>
           <div>
             <label htmlFor="name">Your Name:
             <input type="text" name="name" id="name" onChange={handleAppChange} value={newApplication.name} />
