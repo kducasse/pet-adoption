@@ -22,23 +22,35 @@ const SurrenderForm = props => {
             },
             body: JSON.stringify({
                 id: currentlySelectedApp.id,
-                applicationStatus: currentlySelectedApp.newSurrender
+                name: currentlySelectedApp.name,
+                phoneNumber: currentlySelectedApp.phoneNumber,
+                email: currentlySelectedApp.email,
+                petName: currentlySelectedApp.petName,
+                petAge: currentlySelectedApp.petAge,
+                imgUrl: currentlySelectedApp.imgUrl,
+                vaccinationStatus: currentlySelectedApp.vaccinationStatus,
+                petType: {type: currentlySelectedApp.petType.type},
+                applicationStatus: newSurrender
             })
+        })
+        .then(result => {
+            setNewSurrender("")
+            setCurrentlySelectedApp(null)
         })
     };
 
     useEffect(() => {
         fetch("/api/v1/surrender_application").then((response) => response.json())
             .then(surrenderForms => {
-                setAllSurrenderForms(surrenderForms.rows)
+                setAllSurrenderForms(surrenderForms)
             })
     }
-        , [])
+        , [currentlySelectedApp])
 
     let viewAllForms = allSurrenderForms.map(surrenderForm => {
         return (
             <option key={surrenderForm.id} value={JSON.stringify(surrenderForm)}>
-                --{`${surrenderForm.name}, Surrender Application #${surrenderForm.id}, ${surrenderForm.application_status}`}--
+                --{`${surrenderForm.name}, Surrender Application #${surrenderForm.id}, ${surrenderForm.applicationStatus}`}--
             </option>
         )
     })
@@ -46,16 +58,18 @@ const SurrenderForm = props => {
     let viewFormDisplay
     if (currentlySelectedApp !== null) {
         viewFormDisplay = (<div>
-            <ul className="form-display">
-                <li>{`Applicant Name:${currentlySelectedApp.name}`}</li>
-                <li>{`Phone#: ${currentlySelectedApp.phone_number}`}</li>
+            <ul className="application-approval">
+                <li>{`Applicant Name: ${currentlySelectedApp.name}`}</li>
+                <li>{`Phone#: ${currentlySelectedApp.phoneNumber}`}</li>
                 <li>{`Email: ${currentlySelectedApp.email}`}</li>
-                <li>{`Pet Name# ${currentlySelectedApp.pet_name}`}</li>
-                <li>{`Pet Age# ${currentlySelectedApp.pet_age}`}</li>
-                <li>{`Pet Type: ${currentlySelectedApp.pet_type}`}</li>
-                <li>{`Pet Image: ${currentlySelectedApp.pet_image_url}`}</li>
-                <li>{`Is pet Vaccinated: ${currentlySelectedApp.vaccination_status}`}</li>
-                <li>{`Application Status: ${currentlySelectedApp.application_status}`}</li>
+                <li>{`Pet Name: ${currentlySelectedApp.petName}`}</li>
+                <li>{`Pet Age: ${currentlySelectedApp.petAge}`}</li>
+                <li>{`Pet Type: ${currentlySelectedApp.petType.type}`}</li>
+                <li>
+                    <img src={currentlySelectedApp.imgUrl} alt={`Photo of ${currentlySelectedApp.name}`} />
+                </li>
+                <li>{`Is pet Vaccinated: ${currentlySelectedApp.vaccinationStatus}`}</li>
+                <li>{`Application Status: ${currentlySelectedApp.applicationStatus}`}</li>
             </ul>
         </div>)
     }

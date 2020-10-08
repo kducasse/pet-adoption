@@ -8,6 +8,7 @@ const App = props => {
     <BrowserRouter>
       <Route path="/pets" component={Navbar} />
       <Route path="/adoptions" component={Navbar} />
+      <Route path="/admin/review" component={Navbar}/>
       <Route exact path="/">
         <Redirect to="/pets" />
       </Route>

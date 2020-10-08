@@ -19,8 +19,7 @@ const PetShowPage = (props) => {
         }
       })
       .then(response => response.json())
-      .then(pet => {setAdoptablePet(pet)
-      })
+      .then(pet => {setAdoptablePet(pet)})
       .catch(error => {
       })
   }, [])

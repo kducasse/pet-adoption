@@ -22,43 +22,62 @@ const ApprovalForm = props => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                petId:currentlySelectedForm.pet_id,
-                applicationId:currentlySelectedForm.id,
-                approvalStatus:newApproval
+                ...currentlySelectedForm,
+                petId: currentlySelectedForm.petId,
+                applicationId: currentlySelectedForm.id,
+                applicationStatus: newApproval,
+                adoptablePet: { id: currentlySelectedForm.adoptablePet.id }
             })
         })
+            .then(result => {
+                setNewApproval("")
+                setCurrentlySelectedForm(null)
+            })
+            .catch(error => {
+
+            })
     };
 
     useEffect(() => {
         fetch("/api/v1/adoption_application").then((response) => response.json())
             .then(adoptionForms => {
-                setAllAdoptionForms(adoptionForms.rows)
-            })}
-        , [])
+                setAllAdoptionForms(adoptionForms)
+            })
+    }
+        , [currentlySelectedForm])
 
-    let allForms = allAdoptionForms.map(AdoptionForm => {
-        return <option key={AdoptionForm.id} value={JSON.stringify(AdoptionForm)}>--{`${AdoptionForm.name}, Application#${AdoptionForm.id}, ${AdoptionForm.application_status}`}--</option>
+    let allForms = allAdoptionForms.map(adoptionForm => {
+        return <option key={adoptionForm.id} value={JSON.stringify(adoptionForm)}>--{`${adoptionForm.name}, Application#${adoptionForm.id}, ${adoptionForm.applicationStatus}`}--</option>
     })
 
     let formDisplay
     if (currentlySelectedForm !== null) {
         formDisplay = (
             <div>
-                <ul className="form-display">
-                    <li>{`Applicant Id# ${currentlySelectedForm.id}`}</li>
-                    <li>{`Pet Id# ${currentlySelectedForm.pet_id}`}</li>
-                    <li>{`Applicant Name:${currentlySelectedForm.name}`}</li>
-                    <li>{`Phone#: ${currentlySelectedForm.phone_number}`}</li>
+                <ul className="application-approval" >
+                    <li>{`Applicant Id: ${currentlySelectedForm.id}`}</li>
+                    <li>{`Pet Id: ${currentlySelectedForm.adoptablePet.id}`}</li>
+                    <li>{`Applicant Name: ${currentlySelectedForm.name}`}</li>
+                    <li>{`Phone Number: ${currentlySelectedForm.phoneNumber}`}</li>
                     <li>{`Email: ${currentlySelectedForm.email}`}</li>
-                    <li>{`Applicant's Home Status: ${currentlySelectedForm.home_status}`}</li>
-                    <li>{`Application Status: ${currentlySelectedForm.application_status}`}</li>
+                    <li>{`Applicant's Home Status: ${currentlySelectedForm.homeStatus}`}</li>
+                    <li>{`Application Status: ${currentlySelectedForm.applicationStatus}`}</li>
+                    <br></br>
+                    <li>
+                        <img src={currentlySelectedForm.adoptablePet.imgUrl} alt={`Photo of ${currentlySelectedForm.adoptablePet.name}`} />
+                    </li>
+                    <li>{`Pet Name: ${currentlySelectedForm.adoptablePet.name}`}</li>
+                    <li>{`Pet Age: ${currentlySelectedForm.adoptablePet.age}`}</li>
+                    <li>{`Pet Type: ${currentlySelectedForm.adoptablePet.petType.type}`}</li>
+                    <li>{`Is pet Vaccinated: ${currentlySelectedForm.adoptablePet.vaccinationStatus}`}</li>
+                    <li>{`Application Status: ${currentlySelectedForm.adoptablePet.adoptionStatus}`}</li>
                 </ul>
             </div>)
     }
 
     return (
         <form className="put-pet-up-for-adoption adoption-form-section" onSubmit={handleApprovalSubmit} >
-            <label htmlFor="completedForms">Select a form to reveiw:</label>
+            <label htmlFor="completedForms">Select a form to review:</label>
             <select onChange={handleSelectionChange} name="completedForms" id="completedForms">
                 <option value="null">--Please choose an option--</option>
                 {allForms}
