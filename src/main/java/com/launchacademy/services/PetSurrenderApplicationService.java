@@ -23,9 +23,9 @@ public class PetSurrenderApplicationService {
   }
 
   public PetSurrenderApplication processApp(PetSurrenderApplication petApp) {
-    int petTypeId = petApp.getPetType().equals("Two-legged") ? 1 : 2;
+    int petTypeId = petApp.getSurrenderPetType().getType().equals("Two-legged") ? 1 : 2;
     PetType petType = petTypeRepository.findById(petTypeId).get();
-    petApp.setPetType(petType);
+    petApp.setSurrenderPetType(petType);
     return petSurrenderAppRepo.save(petApp);
   }
 
@@ -46,13 +46,13 @@ public class PetSurrenderApplicationService {
 
   public void updateApplication(PetSurrenderApplication petSurrenderApplication) {
     PetSurrenderApplication application = petSurrenderAppRepo.findById(petSurrenderApplication.getId()).get();
-    PetType petType = petTypeRepository.findByTypeIgnoreCase(petSurrenderApplication.getPetType().getType());
+    PetType petType = petTypeRepository.findByTypeIgnoreCase(petSurrenderApplication.getSurrenderPetType().getType());
     application.setName(petSurrenderApplication.getName());
     application.setPhoneNumber(petSurrenderApplication.getPhoneNumber());
     application.setEmail(petSurrenderApplication.getEmail());
     application.setPetName(petSurrenderApplication.getPetName());
     application.setPetAge(petSurrenderApplication.getPetAge());
-    application.setPetType(petType);
+    application.setSurrenderPetType(petType);
     application.setImgUrl(petSurrenderApplication.getImgUrl());
     application.setVaccinationStatus(petSurrenderApplication.getVaccinationStatus());
     petSurrenderAppRepo.save(application);

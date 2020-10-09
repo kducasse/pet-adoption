@@ -16,7 +16,7 @@ const ApprovalForm = props => {
 
     const handleApprovalSubmit = event => {
         event.preventDefault()
-        fetch("/api/v1/adoption_application_approval", {
+        fetch("/api/v1/adoption-applications/approval", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ const ApprovalForm = props => {
     };
 
     useEffect(() => {
-        fetch("/api/v1/adoption_application").then((response) => response.json())
+        fetch("/api/v1/adoption-applications").then((response) => response.json())
             .then(adoptionForms => {
                 setAllAdoptionForms(adoptionForms)
             })

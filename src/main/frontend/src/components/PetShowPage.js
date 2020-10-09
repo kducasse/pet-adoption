@@ -10,7 +10,7 @@ const PetShowPage = (props) => {
   const [animalPageFound, setAnimalPageFound] = useState(true)
 
   useEffect(() => {
-    fetch(`/api/v1/adoptable_pets/${adoptablePetId}?species=${species}`)
+    fetch(`/api/v1/adoptable-pets/${adoptablePetId}?species=${species}`)
       .then(response => {
         if (response.ok) {
           return response

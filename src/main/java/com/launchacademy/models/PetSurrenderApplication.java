@@ -35,22 +35,22 @@ public class PetSurrenderApplication {
 
   @NotBlank
   @Size(max = 50)
-  @Column
+  @Column(nullable = false)
   private String name;
 
   @NotBlank
   @Size(min = 10, max = 10, message = "must be 10 digits long")
-  @Column(name = "phone_number")
+  @Column(name = "phone_number", nullable = false)
   private String phoneNumber;
 
   @NotBlank
   @Email
-  @Column
+  @Column(nullable = false)
   private String email;
 
   @NotBlank
   @Size(max = 50)
-  @Column(name = "pet_name")
+  @Column(name = "pet_name", nullable = false)
   private String petName;
 
   @NotNull
@@ -59,20 +59,20 @@ public class PetSurrenderApplication {
   private Integer petAge;
 
   @NotBlank
-  @Column(name = "pet_image_url")
+  @Column(name = "pet_image_url", nullable = false)
   private String imgUrl;
 
   @NotNull
   @Column(name = "vaccination_status")
   private Boolean vaccinationStatus;
 
-  @Column(name = "application_status")
   @Size(max = 50)
+  @Column(name = "application_status", nullable = false)
   private String applicationStatus;
 
   @NotNull
   @ManyToOne
   @JoinColumn(name = "pet_type_id", nullable = false)
-  @JsonIgnoreProperties("adoptablePets")
-  private PetType petType;
+  @JsonIgnoreProperties("petSurrenderApplications")
+  private PetType surrenderPetType;
 }

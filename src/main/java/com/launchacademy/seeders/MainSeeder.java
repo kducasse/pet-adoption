@@ -24,7 +24,6 @@ public class MainSeeder implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-
     if (Lists.newArrayList(petTypeRepository.findAll()).isEmpty()) {
       Seeder.seed(petTypeRepository, PetTypeSeeder.getSeedData());
     }

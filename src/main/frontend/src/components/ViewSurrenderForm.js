@@ -15,7 +15,7 @@ const SurrenderForm = props => {
 
     const handleSurrenderSubmit = event => {
         event.preventDefault()
-        fetch("/api/v1/adoption_surrender_approval", {
+        fetch("/api/v1/pet-surrender-applications/approval", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ const SurrenderForm = props => {
                 petAge: currentlySelectedApp.petAge,
                 imgUrl: currentlySelectedApp.imgUrl,
                 vaccinationStatus: currentlySelectedApp.vaccinationStatus,
-                petType: {type: currentlySelectedApp.petType.type},
+                surrenderPetType: {type: currentlySelectedApp.surrenderPetType.type},
                 applicationStatus: newSurrender
             })
         })
@@ -41,7 +41,7 @@ const SurrenderForm = props => {
 
 
     useEffect(() => {
-        fetch("/api/v1/surrender_application").then((response) => response.json())
+        fetch("/api/v1/pet-surrender-applications").then((response) => response.json())
             .then(surrenderForms => {
                 setAllSurrenderForms(surrenderForms)
             })
@@ -68,7 +68,7 @@ const SurrenderForm = props => {
                 <li>{`Email: ${currentlySelectedApp.email}`}</li>
                 <li>{`Pet Name: ${currentlySelectedApp.petName}`}</li>
                 <li>{`Pet Age: ${currentlySelectedApp.petAge}`}</li>
-                <li>{`Pet Type: ${currentlySelectedApp.petType.type}`}</li>
+                <li>{`Pet Type: ${currentlySelectedApp.surrenderPetType.type}`}</li>
                 <li>
                     <img src={currentlySelectedApp.imgUrl} alt={`Photo of ${currentlySelectedApp.name}`} />
                 </li>

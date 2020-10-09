@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/adoption-applications")
 public class AdoptionApplicationRestController {
 
   private AdoptionApplicationRepository adoptionAppRepo;
@@ -32,17 +32,17 @@ public class AdoptionApplicationRestController {
     this.adoptionApplicationService = adoptionApplicationService;
   }
 
-  @GetMapping("/adoption_application/pending")
-  public Iterable<AdoptionApplication> getPendingList() {
-    return adoptionAppRepo.findAllByApplicationStatus("pending");
-  }
-
-  @GetMapping("/adoption_application")
+  @GetMapping()
   public Iterable<AdoptionApplication> getList() {
     return adoptionAppRepo.findAll();
   }
 
-  @PostMapping("/adoption_application")
+  @GetMapping("/pending")
+  public Iterable<AdoptionApplication> getPendingList() {
+    return adoptionAppRepo.findAllByApplicationStatus("pending");
+  }
+
+  @PostMapping()
   public ResponseEntity create(@RequestBody @Valid AdoptionApplication adoptionApplication,
       BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
@@ -53,35 +53,36 @@ public class AdoptionApplicationRestController {
     }
   }
 
-  @PostMapping("/adoption_application_approval")
+  @PostMapping("/approval")
   public ResponseEntity getApproval(@RequestBody @Valid AdoptionApplication adoptionApplication,
       BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return new ResponseEntity<List>(bindingResult.getAllErrors(), HttpStatus.NOT_ACCEPTABLE);
     } else {
       return new ResponseEntity<>(adoptionApplicationService.processApproval(adoptionApplication),
-          HttpStatus.CREATED);
+          HttpStatus.OK);
     }
   }
 
-  @DeleteMapping("/adoption_application/delete")
-  private ResponseEntity delete(@RequestParam Integer id, @RequestBody @Valid AdoptionApplication adoptionApplication, BindingResult bindingResult ) {
-    if(bindingResult.hasErrors()) {
+  @PutMapping("/update")
+  private ResponseEntity update(@RequestParam Integer id,
+      @RequestBody @Valid AdoptionApplication adoptionApplication, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
       return new ResponseEntity<List>(bindingResult.getAllErrors(), HttpStatus.NOT_ACCEPTABLE);
-    }else {
-      adoptionApplicationService.deleteApplication(adoptionApplication);
-      return new ResponseEntity(HttpStatus.CREATED);
-    }
-  }
-
-  @PutMapping("/adoption_application/update")
-  private ResponseEntity update(@RequestParam Integer id, @RequestBody @Valid AdoptionApplication adoptionApplication, BindingResult bindingResult ) {
-    if(bindingResult.hasErrors()) {
-      return new ResponseEntity<List>(bindingResult.getAllErrors(), HttpStatus.NOT_ACCEPTABLE);
-    }else {
+    } else {
       adoptionApplicationService.updateApplication(adoptionApplication);
-      return new ResponseEntity<>(HttpStatus.ACCEPTED);
+      return new ResponseEntity<>(HttpStatus.OK);
     }
   }
 
+  @DeleteMapping("/delete")
+  private ResponseEntity delete(@RequestParam Integer id,
+      @RequestBody @Valid AdoptionApplication adoptionApplication, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      return new ResponseEntity<List>(bindingResult.getAllErrors(), HttpStatus.NOT_ACCEPTABLE);
+    } else {
+      adoptionApplicationService.deleteApplication(adoptionApplication);
+      return new ResponseEntity(HttpStatus.OK);
+    }
+  }
 }

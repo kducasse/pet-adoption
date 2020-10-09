@@ -37,11 +37,11 @@ public class AdoptablePet {
 
   @NotBlank
   @Size(max = 50)
-  @Column
+  @Column(nullable = false)
   private String name;
 
   @NotBlank
-  @Column(name = "img_url")
+  @Column(name = "img_url", nullable = false)
   private String imgUrl;
 
   @NotNull
@@ -54,12 +54,12 @@ public class AdoptablePet {
   private Boolean vaccinationStatus;
 
   @NotBlank
-  @Column(name = "adoption_story")
+  @Column(name = "adoption_story", nullable = false)
   private String adoptionStory;
 
   @NotBlank
   @Size(max = 50)
-  @Column(name = "adoption_status")
+  @Column(name = "adoption_status", nullable = false)
   private String adoptionStatus;
 
   @ManyToOne
