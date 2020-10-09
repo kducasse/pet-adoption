@@ -17,8 +17,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/adoptable_pets")
+@RequestMapping("/api/v1/adoptable-pets")
 public class AdoptablePetRestController {
+
+  private class AdoptablePetNotFoundException extends RuntimeException { };
+
+  @ControllerAdvice
+  private class AdoptablePetNotFoundAdvice {
+
+    @ResponseBody
+    @ExceptionHandler(AdoptablePetNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String adoptablePetNotFoundHandler(AdoptablePetNotFoundException exception) {
+      return exception.getMessage();
+    }
+  }
 
   private AdoptablePetRepository adoptablePetRepository;
   private PetTypeRepository petTypeRepository;
@@ -37,23 +50,9 @@ public class AdoptablePetRestController {
     } else if (type.equals("all")) {
       return adoptablePetRepository.findAllByAdoptionStatus("approved");
     } else {
-      int typeNumber = type.equals("Two-legged") ? 1 : 2;
-      return petTypeRepository.findById(typeNumber)
+      return petTypeRepository.findById(type.equals("Two-legged") ? 1 : 2)
           .orElseThrow(AdoptablePetNotFoundException::new)
           .getAdoptablePets();
-    }
-  }
-
-  private class AdoptablePetNotFoundException extends RuntimeException { };
-
-  @ControllerAdvice
-  private class AdoptablePetNotFoundAdvice {
-
-    @ResponseBody
-    @ExceptionHandler(AdoptablePetNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String adoptablePetNotFoundHandler(AdoptablePetNotFoundException exception) {
-      return exception.getMessage();
     }
   }
 

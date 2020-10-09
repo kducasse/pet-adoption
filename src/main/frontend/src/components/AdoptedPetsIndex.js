@@ -5,7 +5,7 @@ const AdoptedPetsIndex = props => {
   const [adoptedPets, setAdoptedPets] = useState([]);
 
   useEffect(() => {
-    fetch(`/api/v1/adoptable_pets?type=all`)
+    fetch(`/api/v1/adoptable-pets?type=all`)
       .then((response) => response.json())
       .then((result) => {
         setAdoptedPets(result.map((pet) => {

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/pet-surrender-applications")
 public class PetSurrenderRestController {
 
   private PetSurrenderApplicationRepository petSurrenderAppRepo;
@@ -32,17 +32,17 @@ public class PetSurrenderRestController {
     this.petSurrenderAppService = petSurrenderAppService;
   }
 
-  @GetMapping("/surrender_application/pending")
-  public Iterable<PetSurrenderApplication> getPendingList() {
-    return petSurrenderAppRepo.findAllByApplicationStatus("pending");
-  }
-
-  @GetMapping("/surrender_application")
+  @GetMapping()
   public Iterable<PetSurrenderApplication> getList() {
     return petSurrenderAppRepo.findAll();
   }
 
-  @PostMapping("/pet_surrender_applications")
+  @GetMapping("/pending")
+  public Iterable<PetSurrenderApplication> getPendingList() {
+    return petSurrenderAppRepo.findAllByApplicationStatus("pending");
+  }
+
+  @PostMapping()
   public ResponseEntity create(@RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
@@ -53,7 +53,7 @@ public class PetSurrenderRestController {
     }
   }
 
-  @PostMapping("/adoption_surrender_approval")
+  @PostMapping("/approval")
   public ResponseEntity getApproval(
       @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
@@ -61,27 +61,31 @@ public class PetSurrenderRestController {
       return new ResponseEntity<List>(bindingResult.getAllErrors(), HttpStatus.NOT_ACCEPTABLE);
     } else {
       return new ResponseEntity<>(petSurrenderAppService.processApproval(petSurrenderApplication),
-          HttpStatus.CREATED);
+          HttpStatus.OK);
     }
   }
 
-  @DeleteMapping("/surrender_application/delete")
-  private ResponseEntity<List> delete(@RequestParam Integer id, @RequestBody @Valid PetSurrenderApplication petSurrenderApplication, BindingResult bindingResult ) {
-    if(bindingResult.hasErrors()) {
+  @PutMapping("/update")
+  private ResponseEntity update(@RequestParam Integer id,
+      @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
+      BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
       return new ResponseEntity<List>(bindingResult.getAllErrors(), HttpStatus.NOT_ACCEPTABLE);
-    }else {
-      petSurrenderAppService.deleteApplication(petSurrenderApplication);
-      return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-  }
-
-  @PutMapping("/surrender_application/update")
-  private ResponseEntity update(@RequestParam Integer id, @RequestBody @Valid PetSurrenderApplication petSurrenderApplication, BindingResult bindingResult ) {
-    if(bindingResult.hasErrors()) {
-      return new ResponseEntity<List>(bindingResult.getAllErrors(), HttpStatus.NOT_ACCEPTABLE);
-    }else {
+    } else {
       petSurrenderAppService.updateApplication(petSurrenderApplication);
-      return new ResponseEntity<>(HttpStatus.ACCEPTED);
+      return new ResponseEntity<>(HttpStatus.OK);
+    }
+  }
+
+  @DeleteMapping("/delete")
+  private ResponseEntity<List> delete(@RequestParam Integer id,
+      @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
+      BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      return new ResponseEntity<List>(bindingResult.getAllErrors(), HttpStatus.NOT_ACCEPTABLE);
+    } else {
+      petSurrenderAppService.deleteApplication(petSurrenderApplication);
+      return new ResponseEntity<>(HttpStatus.OK);
     }
   }
 }

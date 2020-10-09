@@ -29,7 +29,7 @@ public class AdoptablePetService {
     newPet.setVaccinationStatus(surrenderApp.getVaccinationStatus());
     newPet.setAdoptionStory("Please adopt me!");
     newPet.setAdoptionStatus("null");
-    newPet.setPetType(petTypeRepository.findByTypeIgnoreCase(surrenderApp.getPetType().getType()));
+    newPet.setPetType(petTypeRepository.findByTypeIgnoreCase(surrenderApp.getSurrenderPetType().getType()));
     return adoptablePetRepository.save(newPet);
   }
 

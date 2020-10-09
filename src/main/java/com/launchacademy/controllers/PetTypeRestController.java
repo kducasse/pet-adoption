@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/pet_types")
+@RequestMapping("/api/v1/pet-types")
 public class PetTypeRestController {
 
   private PetTypeRepository petTypeRepository;

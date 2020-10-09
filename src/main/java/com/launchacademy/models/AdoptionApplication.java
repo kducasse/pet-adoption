@@ -33,29 +33,29 @@ public class AdoptionApplication {
 
   @NotBlank
   @Size(max = 50)
-  @Column
+  @Column(nullable = false)
   private String name;
 
   @NotBlank
   @Size(min = 10, max = 10, message = "must be 10 digits long")
-  @Column(name = "phone_number")
+  @Column(name = "phone_number", nullable = false)
   private String phoneNumber;
 
   @NotBlank
   @Email
-  @Column
+  @Column(nullable = false)
   private String email;
 
   @NotBlank
   @Size(max = 4, message = "must not be blank")
-  @Column(name = "home_status")
+  @Column(name = "home_status", nullable = false)
   private String homeStatus;
 
-  @Column(name = "application_status")
+  @Column(name = "application_status", nullable = false)
   private String applicationStatus;
 
   @ManyToOne
-  @JoinColumn(name = "pet_id")
-  @JsonIgnoreProperties("adoptionApplication")
+  @JoinColumn(name = "pet_id", nullable = false)
+  @JsonIgnoreProperties("adoptionApplicationList")
   private AdoptablePet adoptablePet;
 }

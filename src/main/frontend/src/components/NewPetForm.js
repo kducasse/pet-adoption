@@ -7,7 +7,7 @@ const NewPetForm = props => {
     email: "",
     petName: "",
     petAge: "",
-    petType: "",
+    surrenderPetType: "",
     imgUrl: "",
     vaccinationStatus: ""
   })
@@ -30,9 +30,9 @@ const NewPetForm = props => {
       email: newPet.email,
       petName: newPet.petName,
       petAge: newPet.petAge,
-      petType: {
-        id: 999,
-        type: newPet.petType,
+      surrenderPetType: {
+        id: 1,
+        type: newPet.surrenderPetType,
         description: "pet type",
         imgUrl: "image url",
         adoptablePets: [],
@@ -43,7 +43,7 @@ const NewPetForm = props => {
       applicationStatus: "pending"
     }
 
-      fetch("/api/v1/pet_surrender_applications", {
+      fetch("/api/v1/pet-surrender-applications", {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' }
@@ -56,9 +56,15 @@ const NewPetForm = props => {
            .then(bindingResults => {
              let results = bindingResults.map( (errorObject, index) => {
                let field = errorObject.field.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); })
+               if(field.includes("Surrender")) {
+                 field = field.replace("Surrender", "")
+               }
                let message = errorObject.defaultMessage
                return <p key={index}>{field} {message}</p>
              })
+             if(newPet.surrenderPetType == "") {
+               results.push(<p key={results.length + 1}>Pet Type must not be blank</p>)
+             }
             setErrors(results)
             })
          } })
@@ -102,8 +108,8 @@ const NewPetForm = props => {
             <input type="text" name="petAge" id="petAge" onChange={handlePetChange} value={newPet.petAge} />
           </label>
         
-          <label htmlFor="petType">Select Pet Type:</label>
-            <select name="petType" id="petType" onChange={handlePetChange} value={newPet.petType}>
+          <label htmlFor="surrenderPetType">Select Pet Type:</label>
+            <select name="surrenderPetType" id="surrenderPetType" onChange={handlePetChange} value={newPet.surrenderPetType}>
               <option value="" disabled hidden>--Select Pet Type--</option>
               <option value="Four-legged">Four-Legged</option>
               <option value="Two-legged">Two-Legged</option>

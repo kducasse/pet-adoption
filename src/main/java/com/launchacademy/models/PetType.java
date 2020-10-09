@@ -31,21 +31,21 @@ public class PetType {
 
   @NotBlank
   @Size(max = 50)
-  @Column
+  @Column(nullable = false)
   private String type;
 
   @Column
   private String description;
 
   @NotBlank
-  @Column(name = "img_url_random_animal")
+  @Column(name = "img_url_random_animal", nullable = false)
   private String imgUrl;
 
   @OneToMany(mappedBy = "petType")
   @JsonIgnoreProperties("petType")
   private List<AdoptablePet> adoptablePets;
 
-  @OneToMany(mappedBy = "petType", cascade = CascadeType.ALL)
-  @JsonIgnoreProperties("petType")
+  @OneToMany(mappedBy = "surrenderPetType", cascade = CascadeType.ALL)
+  @JsonIgnoreProperties("surrenderPetType")
   private List<PetSurrenderApplication> petSurrenderApplications;
 }
