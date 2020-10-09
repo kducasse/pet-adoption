@@ -2,6 +2,7 @@ package com.launchacademy.controllers;
 
 import com.launchacademy.models.PetSurrenderApplication;
 import com.launchacademy.repositories.PetSurrenderApplicationRepository;
+import com.launchacademy.services.PetResponseEntityService;
 import com.launchacademy.services.PetSurrenderApplicationService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class PetSurrenderRestController {
 
   private PetSurrenderApplicationRepository petSurrenderAppRepo;
-  private PetResponseEntity<PetSurrenderApplication, PetSurrenderApplicationService> petResponseEntity;
+  private PetResponseEntityService<PetSurrenderApplication, PetSurrenderApplicationService> petResponseEntity;
 
   @Autowired
   private PetSurrenderRestController(PetSurrenderApplicationRepository petSurrenderAppRepo,
       PetSurrenderApplicationService petSurrenderAppService) {
     this.petSurrenderAppRepo = petSurrenderAppRepo;
-    this.petResponseEntity = new PetResponseEntity<>(petSurrenderAppService);
+    this.petResponseEntity = new PetResponseEntityService<>(petSurrenderAppService);
   }
 
   @GetMapping()

@@ -10,21 +10,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class PetSurrenderApplicationService implements ApplicationService<PetSurrenderApplication> {
   private PetSurrenderApplicationRepository petSurrenderAppRepo;
-  private PetTypeRepository petTypeRepository;
+  private PetTypeRepository petTypeRepo;
   private AdoptablePetService adoptablePetService;
 
   @Autowired
-  private PetSurrenderApplicationService(PetTypeRepository petTypeRepository,
+  private PetSurrenderApplicationService(PetTypeRepository petTypeRepo,
       PetSurrenderApplicationRepository petSurrenderAppRepo,
       AdoptablePetService adoptablePetService) {
-    this.petTypeRepository = petTypeRepository;
+    this.petTypeRepo = petTypeRepo;
     this.petSurrenderAppRepo = petSurrenderAppRepo;
     this.adoptablePetService = adoptablePetService;
   }
 
   public PetSurrenderApplication processApplication(PetSurrenderApplication petApp) {
     int petTypeId = petApp.getSurrenderPetType().getType().equals("Two-legged") ? 1 : 2;
-    PetType petType = petTypeRepository.findById(petTypeId).get();
+    PetType petType = petTypeRepo.findById(petTypeId).get();
     petApp.setSurrenderPetType(petType);
     return petSurrenderAppRepo.save(petApp);
   }
@@ -46,7 +46,7 @@ public class PetSurrenderApplicationService implements ApplicationService<PetSur
 
   public void updateApplication(PetSurrenderApplication petSurrenderApplication) {
     PetSurrenderApplication application = petSurrenderAppRepo.findById(petSurrenderApplication.getId()).get();
-    PetType petType = petTypeRepository.findByTypeIgnoreCase(petSurrenderApplication.getSurrenderPetType().getType());
+    PetType petType = petTypeRepo.findByTypeIgnoreCase(petSurrenderApplication.getSurrenderPetType().getType());
     application.setName(petSurrenderApplication.getName());
     application.setPhoneNumber(petSurrenderApplication.getPhoneNumber());
     application.setEmail(petSurrenderApplication.getEmail());

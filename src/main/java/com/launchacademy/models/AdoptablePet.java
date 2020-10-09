@@ -20,12 +20,10 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
-@ToString()
 @NoArgsConstructor
 @Table(name = "adoptable_pets")
 public class AdoptablePet {

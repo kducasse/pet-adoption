@@ -1,4 +1,7 @@
+com\launchacademy\models\AdoptablePet.class
 com\launchacademy\services\AdoptionApplicationService.class
 com\launchacademy\services\AdoptablePetService.class
 com\launchacademy\controllers\AdoptionApplicationRestController.class
+com\launchacademy\models\AdoptionApplication.class
+com\launchacademy\models\PetSurrenderApplication.class
 com\launchacademy\Runner.class

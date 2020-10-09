@@ -3,6 +3,7 @@ package com.launchacademy.controllers;
 import com.launchacademy.models.AdoptionApplication;
 import com.launchacademy.repositories.AdoptionApplicationRepository;
 import com.launchacademy.services.AdoptionApplicationService;
+import com.launchacademy.services.PetResponseEntityService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdoptionApplicationRestController {
 
   private AdoptionApplicationRepository adoptionAppRepo;
-  private PetResponseEntity<AdoptionApplication, AdoptionApplicationService> petResponseEntity;
+  private PetResponseEntityService<AdoptionApplication, AdoptionApplicationService> petResponseEntity;
 
   @Autowired
   private AdoptionApplicationRestController(AdoptionApplicationRepository adoptionAppRepo,
       AdoptionApplicationService adoptionApplicationService) {
     this.adoptionAppRepo = adoptionAppRepo;
-    this.petResponseEntity = new PetResponseEntity<>(adoptionApplicationService);
+    this.petResponseEntity = new PetResponseEntityService<>(adoptionApplicationService);
   }
 
   @GetMapping()

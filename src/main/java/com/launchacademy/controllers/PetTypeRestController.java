@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/pet-types")
 public class PetTypeRestController {
 
-  private PetTypeRepository petTypeRepository;
+  private PetTypeRepository petTypeRepo;
 
   @Autowired
-  private PetTypeRestController(PetTypeRepository petTypeRepository) {
-    this.petTypeRepository = petTypeRepository;
+  private PetTypeRestController(PetTypeRepository petTypeRepo) {
+    this.petTypeRepo = petTypeRepo;
   }
 
   @GetMapping
   public Iterable<PetType> getPetTypes() {
-    return petTypeRepository.findAll();
+    return petTypeRepo.findAll();
   }
 }

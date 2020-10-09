@@ -1,14 +1,13 @@
-package com.launchacademy.controllers;
+package com.launchacademy.services;
 
-import com.launchacademy.services.ApplicationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-public class PetResponseEntity<U, T extends ApplicationService<U>> {
+public class PetResponseEntityService<U, T extends ApplicationService<U>> {
   private final T service;
 
-  public PetResponseEntity(T service) {
+  public PetResponseEntityService(T service) {
     this.service = service;
     }
 

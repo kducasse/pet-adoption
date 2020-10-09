@@ -13,34 +13,34 @@ import org.springframework.stereotype.Component;
 @Component
 public class MainSeeder implements CommandLineRunner {
 
-  private PetTypeRepository petTypeRepository;
-  private AdoptablePetRepository adoptablePetRepository;
+  private PetTypeRepository petTypeRepo;
+  private AdoptablePetRepository adoptablePetRepo;
 
   @Autowired
-  public MainSeeder(PetTypeRepository petTypeRepository, AdoptablePetRepository adoptablePetRepository) {
-    this.petTypeRepository = petTypeRepository;
-    this.adoptablePetRepository = adoptablePetRepository;
+  public MainSeeder(PetTypeRepository petTypeRepo, AdoptablePetRepository adoptablePetRepo) {
+    this.petTypeRepo = petTypeRepo;
+    this.adoptablePetRepo = adoptablePetRepo;
   }
 
   @Override
   public void run(String... args) throws Exception {
-    if (Lists.newArrayList(petTypeRepository.findAll()).isEmpty()) {
-      Seeder.seed(petTypeRepository, PetTypeSeeder.getSeedData());
+    if (Lists.newArrayList(petTypeRepo.findAll()).isEmpty()) {
+      Seeder.seed(petTypeRepo, PetTypeSeeder.getSeedData());
     }
 
-    if (Lists.newArrayList(adoptablePetRepository.findAll()).isEmpty()) {
-      PetType twoLegged = petTypeRepository.findByTypeIgnoreCase("Two-legged");
-      PetType fourLegged = petTypeRepository.findByTypeIgnoreCase("Four-legged");
+    if (Lists.newArrayList(adoptablePetRepo.findAll()).isEmpty()) {
+      PetType twoLegged = petTypeRepo.findByTypeIgnoreCase("Two-legged");
+      PetType fourLegged = petTypeRepo.findByTypeIgnoreCase("Four-legged");
 
       Map<AdoptablePet, String> adoptablePets = AdoptablePetSeeder.getSeedData();
       for (AdoptablePet pet : adoptablePets.keySet()) {
-        if(adoptablePets.get(pet).equals("two legged")) {
+        if (adoptablePets.get(pet).equals("two legged")) {
           pet.setPetType(twoLegged);
-        }else {
+        } else {
           pet.setPetType(fourLegged);
         }
       }
-      Seeder.seed(adoptablePetRepository, adoptablePets.keySet());
+      Seeder.seed(adoptablePetRepo, adoptablePets.keySet());
     }
   }
 }

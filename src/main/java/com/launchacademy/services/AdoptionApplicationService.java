@@ -10,47 +10,44 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdoptionApplicationService implements ApplicationService<AdoptionApplication> {
 
-  private AdoptionApplicationRepository adoptionApplicationRepository;
-  private AdoptablePetRepository adoptablePetRepository;
+  private AdoptionApplicationRepository adoptionApplicationRepo;
+  private AdoptablePetRepository adoptablePetRepo;
   private AdoptablePetService adoptablePetService;
 
   @Autowired
-  private AdoptionApplicationService(AdoptionApplicationRepository adoptionApplicationRepository,
-      AdoptablePetService adoptablePetService, AdoptablePetRepository adoptablePetRepository) {
-    this.adoptionApplicationRepository = adoptionApplicationRepository;
+  private AdoptionApplicationService(AdoptionApplicationRepository adoptionApplicationRepo,
+      AdoptablePetService adoptablePetService, AdoptablePetRepository adoptablePetRepo) {
+    this.adoptionApplicationRepo = adoptionApplicationRepo;
     this.adoptablePetService = adoptablePetService;
-    this.adoptablePetRepository = adoptablePetRepository;
+    this.adoptablePetRepo = adoptablePetRepo;
   }
 
   public AdoptionApplication processApplication(AdoptionApplication adoptionApplication) {
-    AdoptablePet pet = adoptablePetRepository
+    AdoptablePet pet = adoptablePetRepo
         .findById(adoptionApplication.getAdoptablePet().getId()).get();
     adoptionApplication.setAdoptablePet(pet);
-    return adoptionApplicationRepository.save(adoptionApplication);
+    return adoptionApplicationRepo.save(adoptionApplication);
   }
 
   public AdoptionApplication processApproval(AdoptionApplication adoptionApplication) {
-    AdoptionApplication application = adoptionApplicationRepository.findById(adoptionApplication.getId()).get();
+    AdoptionApplication application = adoptionApplicationRepo.findById(adoptionApplication.getId()).get();
     application.setApplicationStatus(adoptionApplication.getApplicationStatus());
-    adoptionApplicationRepository.save(application);
+    adoptionApplicationRepo.save(application);
     adoptablePetService.processAdoptionApplication(adoptionApplication);
-    return adoptionApplicationRepository.findById(adoptionApplication.getId()).get();
+    return adoptionApplicationRepo.findById(adoptionApplication.getId()).get();
   }
 
-
   public void deleteApplication(AdoptionApplication adoptionApplication) {
-    AdoptionApplication application = adoptionApplicationRepository.findById(adoptionApplication.getId()).get();
-    adoptionApplicationRepository.delete(application);
+    AdoptionApplication application = adoptionApplicationRepo.findById(adoptionApplication.getId()).get();
+    adoptionApplicationRepo.delete(application);
   }
 
   public void updateApplication(AdoptionApplication adoptionApplication) {
-    AdoptionApplication application = adoptionApplicationRepository.findById(adoptionApplication.getId()).get();
+    AdoptionApplication application = adoptionApplicationRepo.findById(adoptionApplication.getId()).get();
     application.setName(adoptionApplication.getName());
     application.setPhoneNumber(adoptionApplication.getPhoneNumber());
     application.setEmail(adoptionApplication.getEmail());
     application.setHomeStatus(adoptionApplication.getHomeStatus());
-    adoptionApplicationRepository.save(application);
+    adoptionApplicationRepo.save(application);
   }
-
-
 }

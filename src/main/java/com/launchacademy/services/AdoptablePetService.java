@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdoptablePetService {
 
-  private AdoptablePetRepository adoptablePetRepository;
-  private PetTypeRepository petTypeRepository;
+  private AdoptablePetRepository adoptablePetRepo;
+  private PetTypeRepository petTypeRepo;
 
   @Autowired
-  private AdoptablePetService(AdoptablePetRepository adoptablePetRepository,
-      PetTypeRepository petTypeRepository) {
-    this.adoptablePetRepository = adoptablePetRepository;
-    this.petTypeRepository = petTypeRepository;
+  private AdoptablePetService(AdoptablePetRepository adoptablePetRepo,
+      PetTypeRepository petTypeRepo) {
+    this.adoptablePetRepo = adoptablePetRepo;
+    this.petTypeRepo = petTypeRepo;
   }
 
   public AdoptablePet processNewPet(PetSurrenderApplication surrenderApp) {
@@ -29,13 +29,13 @@ public class AdoptablePetService {
     newPet.setVaccinationStatus(surrenderApp.getVaccinationStatus());
     newPet.setAdoptionStory("Please adopt me!");
     newPet.setAdoptionStatus("null");
-    newPet.setPetType(petTypeRepository.findByTypeIgnoreCase(surrenderApp.getSurrenderPetType().getType()));
-    return adoptablePetRepository.save(newPet);
+    newPet.setPetType(petTypeRepo.findByTypeIgnoreCase(surrenderApp.getSurrenderPetType().getType()));
+    return adoptablePetRepo.save(newPet);
   }
 
   public void processAdoptionApplication(AdoptionApplication adoptionApplication) {
-    AdoptablePet pet = adoptablePetRepository.findById(adoptionApplication.getAdoptablePet().getId()).get();
+    AdoptablePet pet = adoptablePetRepo.findById(adoptionApplication.getAdoptablePet().getId()).get();
     pet.setAdoptionStatus(adoptionApplication.getApplicationStatus());
-    adoptablePetRepository.save(pet);
+    adoptablePetRepo.save(pet);
   }
 }
