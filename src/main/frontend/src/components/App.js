@@ -9,6 +9,7 @@ const App = props => {
       <Route path="/pets" component={Navbar} />
       <Route path="/adoptions" component={Navbar} />
       <Route path="/admin/review" component={Navbar}/>
+      <Route path="/pending_applications" component={Navbar}/>
       <Route exact path="/">
         <Redirect to="/pets" />
       </Route>

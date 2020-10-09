@@ -22,7 +22,7 @@ public class AdoptionApplicationService {
     this.adoptablePetRepository = adoptablePetRepository;
   }
 
-  public AdoptionApplication processsApproval(AdoptionApplication adoptionApplication) {
+  public AdoptionApplication processApproval(AdoptionApplication adoptionApplication) {
     AdoptionApplication application = adoptionApplicationRepository.findById(adoptionApplication.getId()).get();
     application.setApplicationStatus(adoptionApplication.getApplicationStatus());
     adoptionApplicationRepository.save(application);
@@ -36,4 +36,20 @@ public class AdoptionApplicationService {
     adoptionApplication.setAdoptablePet(pet);
     return adoptionApplicationRepository.save(adoptionApplication);
   }
+
+  public void deleteApplication(AdoptionApplication adoptionApplication) {
+    AdoptionApplication application = adoptionApplicationRepository.findById(adoptionApplication.getId()).get();
+    adoptionApplicationRepository.delete(application);
+  }
+
+  public void updateApplication(AdoptionApplication adoptionApplication) {
+    AdoptionApplication application = adoptionApplicationRepository.findById(adoptionApplication.getId()).get();
+    application.setName(adoptionApplication.getName());
+    application.setPhoneNumber(adoptionApplication.getPhoneNumber());
+    application.setEmail(adoptionApplication.getEmail());
+    application.setHomeStatus(adoptionApplication.getHomeStatus());
+    adoptionApplicationRepository.save(application);
+  }
+
+
 }

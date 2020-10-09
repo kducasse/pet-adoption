@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PetSurrenderApplicationRepository extends CrudRepository<PetSurrenderApplication, Integer> {
-
+  Iterable<PetSurrenderApplication> findAllByApplicationStatus(String applicationStatus);
 }
