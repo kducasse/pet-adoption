@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdoptionApplicationRestController {
 
   private AdoptionApplicationRepository adoptionAppRepo;
-  private PetResponseEntityService<AdoptionApplication, AdoptionApplicationService> petResponseEntity;
+  private PetResponseEntityService<AdoptionApplication, AdoptionApplicationService> petResponseEntityService;
 
   @Autowired
   private AdoptionApplicationRestController(AdoptionApplicationRepository adoptionAppRepo,
       AdoptionApplicationService adoptionApplicationService) {
     this.adoptionAppRepo = adoptionAppRepo;
-    this.petResponseEntity = new PetResponseEntityService<>(adoptionApplicationService);
+    this.petResponseEntityService = new PetResponseEntityService<>(adoptionApplicationService);
   }
 
   @GetMapping()
@@ -44,24 +44,24 @@ public class AdoptionApplicationRestController {
   @PostMapping()
   public ResponseEntity create(@RequestBody @Valid AdoptionApplication adoptionApplication,
       BindingResult bindingResult) {
-   return petResponseEntity.create(adoptionApplication, bindingResult);
+   return petResponseEntityService.create(adoptionApplication, bindingResult);
   }
 
   @PostMapping("/approval")
   public ResponseEntity getApproval(@RequestBody @Valid AdoptionApplication adoptionApplication,
       BindingResult bindingResult) {
-    return petResponseEntity.getApproval(adoptionApplication, bindingResult);
+    return petResponseEntityService.getApproval(adoptionApplication, bindingResult);
   }
 
   @PutMapping("/update")
   private ResponseEntity update(@RequestParam Integer id,
       @RequestBody @Valid AdoptionApplication adoptionApplication, BindingResult bindingResult) {
-    return petResponseEntity.update(adoptionApplication, bindingResult);
+    return petResponseEntityService.update(adoptionApplication, bindingResult);
   }
 
   @DeleteMapping("/delete")
   private ResponseEntity delete(@RequestParam Integer id,
       @RequestBody @Valid AdoptionApplication adoptionApplication, BindingResult bindingResult) {
-    return petResponseEntity.delete(adoptionApplication, bindingResult);
+    return petResponseEntityService.delete(adoptionApplication, bindingResult);
   }
 }

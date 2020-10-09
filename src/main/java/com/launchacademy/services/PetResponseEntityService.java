@@ -1,12 +1,17 @@
 package com.launchacademy.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+@Service
 public class PetResponseEntityService<U, T extends ApplicationService<U>> {
+
   private final T service;
 
+  @Autowired
   public PetResponseEntityService(T service) {
     this.service = service;
     }
