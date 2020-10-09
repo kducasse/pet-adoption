@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PetSurrenderApplicationService {
-  private PetTypeRepository petTypeRepository;
+public class PetSurrenderApplicationService implements ApplicationService<PetSurrenderApplication> {
   private PetSurrenderApplicationRepository petSurrenderAppRepo;
+  private PetTypeRepository petTypeRepository;
   private AdoptablePetService adoptablePetService;
 
   @Autowired
@@ -22,7 +22,7 @@ public class PetSurrenderApplicationService {
     this.adoptablePetService = adoptablePetService;
   }
 
-  public PetSurrenderApplication processApp(PetSurrenderApplication petApp) {
+  public PetSurrenderApplication processApplication(PetSurrenderApplication petApp) {
     int petTypeId = petApp.getSurrenderPetType().getType().equals("Two-legged") ? 1 : 2;
     PetType petType = petTypeRepository.findById(petTypeId).get();
     petApp.setSurrenderPetType(petType);
