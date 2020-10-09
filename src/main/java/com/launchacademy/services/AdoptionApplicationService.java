@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdoptionApplicationService {
+public class AdoptionApplicationService implements ApplicationService<AdoptionApplication> {
 
   private AdoptionApplicationRepository adoptionApplicationRepository;
-  private AdoptablePetService adoptablePetService;
   private AdoptablePetRepository adoptablePetRepository;
+  private AdoptablePetService adoptablePetService;
 
   @Autowired
   private AdoptionApplicationService(AdoptionApplicationRepository adoptionApplicationRepository,
@@ -20,6 +20,13 @@ public class AdoptionApplicationService {
     this.adoptionApplicationRepository = adoptionApplicationRepository;
     this.adoptablePetService = adoptablePetService;
     this.adoptablePetRepository = adoptablePetRepository;
+  }
+
+  public AdoptionApplication processApplication(AdoptionApplication adoptionApplication) {
+    AdoptablePet pet = adoptablePetRepository
+        .findById(adoptionApplication.getAdoptablePet().getId()).get();
+    adoptionApplication.setAdoptablePet(pet);
+    return adoptionApplicationRepository.save(adoptionApplication);
   }
 
   public AdoptionApplication processApproval(AdoptionApplication adoptionApplication) {
@@ -30,12 +37,6 @@ public class AdoptionApplicationService {
     return adoptionApplicationRepository.findById(adoptionApplication.getId()).get();
   }
 
-  public AdoptionApplication processApplication(AdoptionApplication adoptionApplication) {
-    AdoptablePet pet = adoptablePetRepository
-        .findById(adoptionApplication.getAdoptablePet().getId()).get();
-    adoptionApplication.setAdoptablePet(pet);
-    return adoptionApplicationRepository.save(adoptionApplication);
-  }
 
   public void deleteApplication(AdoptionApplication adoptionApplication) {
     AdoptionApplication application = adoptionApplicationRepository.findById(adoptionApplication.getId()).get();
