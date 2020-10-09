@@ -2,6 +2,7 @@ package com.launchacademy.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -66,7 +67,7 @@ public class AdoptablePet {
   @JsonIgnoreProperties("adoptablePets")
   private PetType petType;
 
-  @OneToMany(mappedBy = "adoptablePet")
+  @OneToMany(mappedBy = "adoptablePet", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("adoptablePet")
   private List<AdoptionApplication> adoptionApplicationList;
 }

@@ -1,6 +1,5 @@
 package com.launchacademy.services;
 
-import com.launchacademy.models.AdoptablePet;
 import com.launchacademy.models.PetSurrenderApplication;
 import com.launchacademy.models.PetType;
 import com.launchacademy.repositories.PetSurrenderApplicationRepository;
@@ -30,7 +29,7 @@ public class PetSurrenderApplicationService {
     return petSurrenderAppRepo.save(petApp);
   }
 
-  public PetSurrenderApplication processsApproval(PetSurrenderApplication petSurrenderApplication) {
+  public PetSurrenderApplication processApproval(PetSurrenderApplication petSurrenderApplication) {
     PetSurrenderApplication surrenderApp = petSurrenderAppRepo.findById(petSurrenderApplication.getId()).get();
     surrenderApp.setApplicationStatus(petSurrenderApplication.getApplicationStatus());
     petSurrenderAppRepo.save(surrenderApp);
@@ -38,5 +37,24 @@ public class PetSurrenderApplicationService {
       adoptablePetService.processNewPet(surrenderApp);
     }
     return petSurrenderAppRepo.findById(petSurrenderApplication.getId()).get();
+  }
+
+  public void deleteApplication(PetSurrenderApplication petSurrenderApplication) {
+    PetSurrenderApplication application = petSurrenderAppRepo.findById(petSurrenderApplication.getId()).get();
+    petSurrenderAppRepo.delete(application);
+  }
+
+  public void updateApplication(PetSurrenderApplication petSurrenderApplication) {
+    PetSurrenderApplication application = petSurrenderAppRepo.findById(petSurrenderApplication.getId()).get();
+    PetType petType = petTypeRepository.findByTypeIgnoreCase(petSurrenderApplication.getPetType().getType());
+    application.setName(petSurrenderApplication.getName());
+    application.setPhoneNumber(petSurrenderApplication.getPhoneNumber());
+    application.setEmail(petSurrenderApplication.getEmail());
+    application.setPetName(petSurrenderApplication.getPetName());
+    application.setPetAge(petSurrenderApplication.getPetAge());
+    application.setPetType(petType);
+    application.setImgUrl(petSurrenderApplication.getImgUrl());
+    application.setVaccinationStatus(petSurrenderApplication.getVaccinationStatus());
+    petSurrenderAppRepo.save(application);
   }
 }

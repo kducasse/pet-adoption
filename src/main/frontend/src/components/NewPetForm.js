@@ -30,7 +30,14 @@ const NewPetForm = props => {
       email: newPet.email,
       petName: newPet.petName,
       petAge: newPet.petAge,
-      petType: { type: newPet.petType },
+      petType: {
+        id: 999,
+        type: newPet.petType,
+        description: "pet type",
+        imgUrl: "image url",
+        adoptablePets: [],
+        petSurrenderApplications: []
+      },
       imgUrl: newPet.imgUrl,
       vaccinationStatus: newPet.vaccinationStatus,
       applicationStatus: "pending"

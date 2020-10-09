@@ -8,7 +8,7 @@ const SurrenderForm = props => {
     const handleSurrenderChange = event => {
         setNewSurrender(event.currentTarget.value)
     }
-
+    
     const handleSelectedChange = event => {
         setCurrentlySelectedApp(JSON.parse(event.currentTarget.value))
     }
@@ -39,21 +39,25 @@ const SurrenderForm = props => {
         })
     };
 
+
     useEffect(() => {
         fetch("/api/v1/surrender_application").then((response) => response.json())
             .then(surrenderForms => {
                 setAllSurrenderForms(surrenderForms)
             })
+            .catch(error => {
+                console.log(error)
+            })
     }
         , [currentlySelectedApp])
 
-    let viewAllForms = allSurrenderForms.map(surrenderForm => {
-        return (
-            <option key={surrenderForm.id} value={JSON.stringify(surrenderForm)}>
-                --{`${surrenderForm.name}, Surrender Application #${surrenderForm.id}, ${surrenderForm.applicationStatus}`}--
-            </option>
-        )
-    })
+        let viewAllForms = allSurrenderForms.map(surrenderForm => {
+            return (
+                <option key={surrenderForm.id} value={JSON.stringify(surrenderForm)}>
+                    --{`${surrenderForm.name}, Surrender Application #${surrenderForm.id}, ${surrenderForm.applicationStatus}`}--
+                </option>
+            )
+        })
 
     let viewFormDisplay
     if (currentlySelectedApp !== null) {
@@ -76,7 +80,7 @@ const SurrenderForm = props => {
 
     return (
         <form className="put-pet-up-for-adoption adoption-form-section" onSubmit={handleSurrenderSubmit} >
-            <label htmlFor="finishedForms">Select a form to review:</label>
+            <label htmlFor="finishedForms">Select a surrender form to review:</label>
             <select onChange={handleSelectedChange} name="finishedForms" id="finishedForms">
                 <option value="null">--Please choose an option--</option>
                 {viewAllForms}

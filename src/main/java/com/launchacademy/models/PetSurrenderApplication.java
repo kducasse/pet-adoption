@@ -70,8 +70,9 @@ public class PetSurrenderApplication {
   @Size(max = 50)
   private String applicationStatus;
 
+  @NotNull
   @ManyToOne
-  @JoinColumn(name = "pet_type_id")
+  @JoinColumn(name = "pet_type_id", nullable = false)
   @JsonIgnoreProperties("adoptablePets")
   private PetType petType;
 }

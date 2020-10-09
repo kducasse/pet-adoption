@@ -7,6 +7,7 @@ import PetShowPage from "./PetShowPage"
 import ViewAdoptionForms from "./ViewAdoptionForms"
 import AdoptedPetsIndex from "./AdoptedPetsIndex"
 import ViewSurrenderForm from "./ViewSurrenderForm"
+import PendingApplication from "./PendingApplication"
 
 const Navbar = props => {
   return (
@@ -36,13 +37,31 @@ const Navbar = props => {
            
               <li>
                 <Link to="/adoptions/new">
-                  <div className="navbar">Put a Pet Up For Adoption </div>
+                  <div className="navbar">Put a Pet Up For Adoption</div>
                 </Link>
             </li>
 
             <li>
                 <Link to="/pets/adopted">
-                  <div className="navbar">All Adopted Pets </div>
+                  <div className="navbar">All Adopted Pets</div>
+                </Link>
+            </li>
+
+            <li>
+                <Link to="/pending_applications">
+                  <div className="navbar">Pending Applications</div>
+                </Link>
+            </li>
+
+            <li>
+                <Link to="/admin/review/adoption">
+                  <div className="navbar">Review Adoption Applications</div>
+                </Link>
+            </li>
+
+            <li>
+                <Link to="/admin/review/surrender">
+                  <div className="navbar">Review Surrender Applications</div>
                 </Link>
             </li>
 
@@ -58,6 +77,7 @@ const Navbar = props => {
         <Route exact path="/pets/:species/:id" component={PetShowPage} />
         <Route exact path="/admin/review/adoption" component={ViewAdoptionForms} />
         <Route exact path="/admin/review/surrender" component={ViewSurrenderForm} />
+        <Route exact path="/pending_applications" component={PendingApplication} />
       </Switch>
     </>
   );

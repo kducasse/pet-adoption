@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdoptionApplicationRepository extends CrudRepository<AdoptionApplication, Integer> {
-
+  Iterable<AdoptionApplication> findAllByApplicationStatus(String applicationStatus);
 }

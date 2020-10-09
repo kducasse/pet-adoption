@@ -3,7 +3,6 @@ package com.launchacademy.seeders;
 import com.launchacademy.models.PetType;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.compress.utils.Lists;
 
 public class PetTypeSeeder {
 
