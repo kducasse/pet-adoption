@@ -16,13 +16,11 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = "id")
 @Table(name = "adoption_applications")
 public class AdoptionApplication {
   @Id

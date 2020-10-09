@@ -18,12 +18,10 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @Table(name = "pet_surrender_applications")
 public class PetSurrenderApplication {

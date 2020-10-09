@@ -33,24 +33,24 @@ public class AdoptablePetRestController {
     }
   }
 
-  private AdoptablePetRepository adoptablePetRepository;
-  private PetTypeRepository petTypeRepository;
+  private AdoptablePetRepository adoptablePetRepo;
+  private PetTypeRepository petTypeRepo;
 
   @Autowired
-  private AdoptablePetRestController(AdoptablePetRepository adoptablePetRepository,
-      PetTypeRepository petTypeRepository) {
-    this.adoptablePetRepository = adoptablePetRepository;
-    this.petTypeRepository = petTypeRepository;
+  private AdoptablePetRestController(AdoptablePetRepository adoptablePetRepo,
+      PetTypeRepository petTypeRepo) {
+    this.adoptablePetRepo = adoptablePetRepo;
+    this.petTypeRepo = petTypeRepo;
   }
 
   @GetMapping
   public Iterable<AdoptablePet> getPets(@RequestParam(required = false) String type) {
     if (type == null) {
-      return adoptablePetRepository.findAll();
+      return adoptablePetRepo.findAll();
     } else if (type.equals("all")) {
-      return adoptablePetRepository.findAllByAdoptionStatus("approved");
+      return adoptablePetRepo.findAllByAdoptionStatus("approved");
     } else {
-      return petTypeRepository.findById(type.equals("Two-legged") ? 1 : 2)
+      return petTypeRepo.findById(type.equals("Two-legged") ? 1 : 2)
           .orElseThrow(AdoptablePetNotFoundException::new)
           .getAdoptablePets();
     }
@@ -58,9 +58,8 @@ public class AdoptablePetRestController {
 
   @GetMapping("/{id}")
   public AdoptablePet getOnePet(@PathVariable Integer id, @RequestParam String species) {
-    PetType petType = species.equals("Two-legged") ? petTypeRepository.findByTypeIgnoreCase(species)
-        : petTypeRepository.findByTypeIgnoreCase(species);
-    return adoptablePetRepository.findByIdAndPetType(id, petType)
+    PetType petType = petTypeRepo.findByTypeIgnoreCase(species);
+    return adoptablePetRepo.findByIdAndPetType(id, petType)
         .orElseThrow(AdoptablePetNotFoundException::new);
   }
 }
