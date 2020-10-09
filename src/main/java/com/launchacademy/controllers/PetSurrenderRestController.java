@@ -59,7 +59,6 @@ public class PetSurrenderRestController {
       @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
     return petResponseEntity.update(petSurrenderApplication, bindingResult);
-
   }
 
   @DeleteMapping("/delete")
@@ -67,6 +66,5 @@ public class PetSurrenderRestController {
       @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
    return petResponseEntity.delete(petSurrenderApplication, bindingResult);
-
   }
 }
