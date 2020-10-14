@@ -55,14 +55,14 @@ public class PetSurrenderRestController {
   }
 
   @PutMapping("/update")
-  private ResponseEntity update(@RequestParam Integer id,
+  public ResponseEntity update(@RequestParam Integer id,
       @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
     return petResponseEntityService.update(petSurrenderApplication, bindingResult);
   }
 
   @DeleteMapping("/delete")
-  private ResponseEntity delete(@RequestParam Integer id,
+  public ResponseEntity delete(@RequestParam Integer id,
       @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
    return petResponseEntityService.delete(petSurrenderApplication, bindingResult);
