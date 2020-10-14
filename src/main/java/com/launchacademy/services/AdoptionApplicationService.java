@@ -5,9 +5,11 @@ import com.launchacademy.models.AdoptionApplication;
 import com.launchacademy.repositories.AdoptablePetRepository;
 import com.launchacademy.repositories.AdoptionApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
+@Primary
 public class AdoptionApplicationService implements ApplicationService<AdoptionApplication> {
 
   private AdoptionApplicationRepository adoptionApplicationRepo;

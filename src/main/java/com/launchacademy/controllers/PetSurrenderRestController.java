@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class PetSurrenderRestController {
 
   private PetSurrenderApplicationRepository petSurrenderAppRepo;
-  private PetResponseEntityService<PetSurrenderApplication, PetSurrenderApplicationService> petResponseEntity;
+  private PetResponseEntityService<PetSurrenderApplication, PetSurrenderApplicationService> petResponseEntityService;
 
   @Autowired
   private PetSurrenderRestController(PetSurrenderApplicationRepository petSurrenderAppRepo,
       PetSurrenderApplicationService petSurrenderAppService) {
     this.petSurrenderAppRepo = petSurrenderAppRepo;
-    this.petResponseEntity = new PetResponseEntityService<>(petSurrenderAppService);
+    this.petResponseEntityService = new PetResponseEntityService<>(petSurrenderAppService);
   }
 
   @GetMapping()
@@ -44,27 +44,27 @@ public class PetSurrenderRestController {
   @PostMapping()
   public ResponseEntity create(@RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
-    return petResponseEntity.create(petSurrenderApplication, bindingResult);
+    return petResponseEntityService.create(petSurrenderApplication, bindingResult);
   }
 
   @PostMapping("/approval")
   public ResponseEntity getApproval(
       @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
-    return petResponseEntity.getApproval(petSurrenderApplication, bindingResult);
+    return petResponseEntityService.getApproval(petSurrenderApplication, bindingResult);
   }
 
   @PutMapping("/update")
-  private ResponseEntity update(@RequestParam Integer id,
+  public ResponseEntity update(@RequestParam Integer id,
       @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
-    return petResponseEntity.update(petSurrenderApplication, bindingResult);
+    return petResponseEntityService.update(petSurrenderApplication, bindingResult);
   }
 
   @DeleteMapping("/delete")
-  private ResponseEntity delete(@RequestParam Integer id,
+  public ResponseEntity delete(@RequestParam Integer id,
       @RequestBody @Valid PetSurrenderApplication petSurrenderApplication,
       BindingResult bindingResult) {
-   return petResponseEntity.delete(petSurrenderApplication, bindingResult);
+   return petResponseEntityService.delete(petSurrenderApplication, bindingResult);
   }
 }
